@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import cards from './components/App/reducer';
+import AppState from './containers/App/reducer';
 
 export default combineReducers({
-  cards,
+  AppState,
 });

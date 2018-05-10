@@ -21,3 +21,4 @@ yarn-error.log*
 .watchmanconfig
 .idea/UdaciCards.iml
 .idea/codeStyleSettings.xml
+vcs.xml
