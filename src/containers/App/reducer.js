@@ -5,6 +5,8 @@
 
 import produce from 'immer';
 import { RECEIVE_DECKS } from '../DeckList/contants';
+import { RECEIVE_NEW_DECK } from '../NewDeck/constants';
+
 const initialState = {
   decks: null,
 };
@@ -16,6 +18,9 @@ const AppState = produce((draft, action) => {
   switch (action.type) {
     case RECEIVE_DECKS:
       draft.decks = action.payload;
+      break;
+    case RECEIVE_NEW_DECK:
+      draft.decks.push(action.payload);
       break;
     default:
       return draft;

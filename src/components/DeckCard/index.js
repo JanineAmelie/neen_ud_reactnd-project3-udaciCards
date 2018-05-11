@@ -1,16 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, StyleSheet, Text } from 'react-native';
+import { Card } from 'react-native-elements';
 
 const DeckCard = (props) => (
-  <View style={styles.item} key={props.id}>
+  <Card titleStyle={styles.title} title={props.title} key={props.id}>
     <View>
-      <Text style={{ fontSize: 20 }}> {props.title} </Text>
-      <Text>Date Created: {moment.unix(props.date).format('dddd, MMMM D YYYY')}</Text>
-      <Text>Cards in Deck: {props.cardCount}</Text>
+      <Text>date: {moment(props.date).format('dddd, MMMM D, \'YY | h:mm a' )}</Text>
+      <View style={styles.cardContainer}>
+        <MaterialCommunityIcons
+          name="cards-outline"
+          size={36}
+          style={{ color: '#0067B3' }}
+        />
+        <View style={styles.cardCount}>
+          <Text style={styles.countText} >{props.cardCount}</Text>
+        </View>
+      </View>
     </View>
-  </View>
+  </Card>
 );
 export default DeckCard;
 
@@ -23,20 +33,23 @@ DeckCard.propTypes = {
 
 
 const styles = StyleSheet.create({
-  item: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 20,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 17,
+  title: {
+    textAlign: 'left',
+    color: '#0067B3',
+    fontSize: 20,
+  },
+  cardContainer: {
+    height: 40,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  countText: {
+    color: '#0067B3',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  cardCount: {
     justifyContent: 'center',
-    shadowRadius: 3,
-    shadowOpacity: 0.8,
-    shadowColor: 'rgba(0, 0, 0, 0.8)',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
+    alignItems: 'center',
   },
 });

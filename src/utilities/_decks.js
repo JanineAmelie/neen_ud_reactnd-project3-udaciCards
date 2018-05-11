@@ -43,7 +43,7 @@ export function setDummyData() {
 }
 
 export function setDummyDataIfNull(data) {
-  console.log('...data fetched!')
+  console.log('...data fetched!');
   return data === null
     ? setDummyData()
     : JSON.parse(data);

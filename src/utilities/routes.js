@@ -1,10 +1,11 @@
 import React from 'react';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import { View, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 import { TabNavigator, StackNavigator } from 'react-navigation';
-import { Ionicons } from '@expo/vector-icons';
 import DeckList from '../containers/DeckList';
+import NewDeck from '../containers/NewDeck';
 
 export function CustomStatusBar({ backgroundColor, ...props }) {
   return (
@@ -13,6 +14,13 @@ export function CustomStatusBar({ backgroundColor, ...props }) {
     </View>
   );
 }
+
+export const deckListActions = [{
+  text: 'New Deck',
+  icon: <Entypo name="add-to-list" size={16} style={{ color: '#fff' }} />,
+  name: 'btn_newDeck',
+  position: 1,
+}];
 
 export const Tabs = TabNavigator({
   DeckList: {
@@ -30,7 +38,7 @@ export const Tabs = TabNavigator({
     activeTintColor: 'white',
     style: {
       height: 56,
-      backgroundColor: 'purple',
+      backgroundColor: '#005CB8',
       shadowColor: 'rgba(0, 0, 0, 0.24)',
       shadowOffset: {
         width: 0,
@@ -45,6 +53,16 @@ export const Tabs = TabNavigator({
 export const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
+  },
+  NewDeck: {
+    screen: NewDeck,
+    navigationOptions: {
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: '#005CB8',
+        height: 56,
+      },
+    },
   },
 });
 

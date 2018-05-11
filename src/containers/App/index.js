@@ -6,7 +6,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <CustomStatusBar tintColor="#fff" backgroundColor="#E91E63" barStyle="light-content" />
+        <CustomStatusBar tintColor="#fff" backgroundColor="#0061B6" barStyle="light-content" />
         <MainNavigator />
       </View>
     );

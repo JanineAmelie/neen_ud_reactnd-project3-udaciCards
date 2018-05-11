@@ -1,5 +1,6 @@
 {
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "node": true,
@@ -73,6 +74,6 @@
     "require-yield": 0,
     "import/no-webpack-loader-syntax": 0,
     "no-shadow": "off",
-    "react/require-default-props": 0,
+    "react/require-default-props": 0
   }
 }
