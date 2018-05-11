@@ -10,12 +10,9 @@ export function getDecks() {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then(setDummyDataIfNull);
 }
-// getDecks => Returns all decks,
 
 // getDeck
 //  id
-
-// saveDeckTitle
 
 export function saveDeckTitle(newDeckTitle) {
   console.log('addingNewDeck...');
@@ -38,10 +35,8 @@ export function saveDeckTitle(newDeckTitle) {
     .then(() => newDeck);
 }
 
-
-// title
-
-
 // addCardToDeck
+export function addCardToDeck(card, deckId) {
+}
 // title
 // card

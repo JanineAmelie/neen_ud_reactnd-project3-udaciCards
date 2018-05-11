@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Text } from 'react-native-elements';
 import { addNewDeck } from './actions';
+import { MAIN_COLOR } from '../../utilities/colors';
 
 class NewDeck extends Component {
   static navigationOptions = () => (
@@ -80,11 +81,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   mainHeader: {
-    color: '#086FAA',
+    color: MAIN_COLOR,
     marginBottom: 20,
   },
   enabledStyle: {
-    backgroundColor: '#0076AB',
+    backgroundColor: MAIN_COLOR,
   },
   disabledStyle: {
     backgroundColor: '#9E9E9E',

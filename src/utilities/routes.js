@@ -1,11 +1,13 @@
 import React from 'react';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import { View, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import DeckList from '../containers/DeckList';
 import NewDeck from '../containers/NewDeck';
+import DeckView from '../containers/DeckView';
+import { LIGHT_COLOR, MAIN_COLOR, TEXT_COLOR, WHITE } from './colors';
 
 export function CustomStatusBar({ backgroundColor, ...props }) {
   return (
@@ -20,6 +22,15 @@ export const deckListActions = [{
   icon: <Entypo name="add-to-list" size={16} style={{ color: '#fff' }} />,
   name: 'btn_newDeck',
   position: 1,
+  color: LIGHT_COLOR,
+}];
+
+export const deckViewActions = [{
+  text: 'New Card',
+  icon: <MaterialCommunityIcons name="credit-card-plus" size={16} style={{ color: '#fff' }} />,
+  name: 'btn_newCard',
+  position: 1,
+  color: LIGHT_COLOR,
 }];
 
 export const Tabs = TabNavigator({
@@ -35,10 +46,10 @@ export const Tabs = TabNavigator({
     header: null,
   },
   tabBarOptions: {
-    activeTintColor: 'white',
+    activeTintColor: WHITE,
     style: {
       height: 56,
-      backgroundColor: '#005CB8',
+      backgroundColor: MAIN_COLOR,
       shadowColor: 'rgba(0, 0, 0, 0.24)',
       shadowOffset: {
         width: 0,
@@ -57,9 +68,19 @@ export const MainNavigator = StackNavigator({
   NewDeck: {
     screen: NewDeck,
     navigationOptions: {
-      headerTintColor: '#fff',
+      headerTintColor: TEXT_COLOR,
       headerStyle: {
-        backgroundColor: '#005CB8',
+        backgroundColor: MAIN_COLOR,
+        height: 56,
+      },
+    },
+  },
+  DeckView: {
+    screen: DeckView,
+    navigationOptions: {
+      headerTintColor: TEXT_COLOR,
+      headerStyle: {
+        backgroundColor: MAIN_COLOR,
         height: 56,
       },
     },

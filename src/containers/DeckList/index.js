@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getDecks } from '../../utilities/api';
 import { receiveDecks } from './actions';
-import DeckCard from '../../components/DeckCard/index';
+import DeckCard from '../../components/DeckItem/index';
 import { deckListActions } from '../../utilities/routes';
+import { MAIN_COLOR } from '../../utilities/colors';
 
 class DeckList extends Component {
   constructor(props) {
@@ -25,12 +26,21 @@ class DeckList extends Component {
           this.setState(() => ({ ready: true }));
         });
     } else {
+    // eslint-disable-next-line react/no-did-mount-set-state
       this.setState(() => ({ ready: true }));
     }
   }
+
+  keyExtractor = (item) => item.id;
+
   renderItem = ({ item }) => (
-    <TouchableOpacity key={item.id}>
-      <DeckCard key={item.id} title={item.deckTitle} date={item.date} cardCount={item.cards.length} id={item.id} />
+    <TouchableOpacity
+      onPress={() => this.props.navigation.navigate(
+        'DeckView',
+        { deckId: item.id, deckTitle: item.deckTitle }
+      )}
+    >
+      <DeckCard title={item.deckTitle} date={item.date} cardCount={item.cards.length} id={item.id} />
     </TouchableOpacity>
   );
 
@@ -40,12 +50,14 @@ class DeckList extends Component {
         { this.state.ready
           ? <FlatList
             data={this.props.decks}
+            keyExtractor={this.keyExtractor}
             renderItem={this.renderItem}
           />
           : <ActivityIndicator />
         }
         <FloatingAction
           actions={deckListActions}
+          color={MAIN_COLOR}
           onPressItem={
             () => {
               this.props.navigation.navigate('NewDeck');
