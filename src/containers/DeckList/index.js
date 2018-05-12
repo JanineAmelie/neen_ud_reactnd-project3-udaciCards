@@ -43,7 +43,8 @@ class DeckList extends Component {
       <DeckCard title={item.deckTitle} date={item.date} cardCount={item.cards.length} id={item.id} />
     </TouchableOpacity>
   );
-
+  // @TODO: SAME DAY notifier:
+  // https://stackoverflow.com/questions/24883760/moment-js-check-a-date-is-today/30679950#30679950
   render() {
     return (
       <View style={styles.container}>

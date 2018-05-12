@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Text } from 'react-native';
 import { Divider, Button } from 'react-native-elements';
 import { FloatingAction } from 'react-native-floating-action';
 import { connect } from 'react-redux';
@@ -21,9 +21,13 @@ class DeckView extends Component {
     if (this.props.force) {
       this.forceUpdate();
     }
-    //  @TODO fetch deck instead from API
   }
-
+  handleQuizStart() {
+    this.props.navigation.navigate(
+      'QuizView',
+      { deck: this.props.deck }
+    );
+  }
   keyExtractor = (item, index) => index;
 
   renderItem = ({ item }) => (
@@ -36,13 +40,17 @@ class DeckView extends Component {
       <View style={styles.container}>
         <View style={styles.topView}>
           <CardCount cardCount={this.props.cards.length} />
-          <Button
-            disabled={false}
-            disabledStyle={styles.disabledStyle}
-            buttonStyle={styles.enabledStyle}
-            title="Start Quiz"
-            icon={{ name: 'pencil-square', type: 'font-awesome' }}
-          />
+          { deck.cards.length === 0
+            ? <Text> Add Some cards to start a quiz! </Text>
+            : <Button
+              disabled={false}
+              disabledStyle={styles.disabledStyle}
+              buttonStyle={styles.enabledStyle}
+              title="Start Quiz"
+              onPress={() => this.handleQuizStart()}
+              icon={{ name: 'pencil-square', type: 'font-awesome' }}
+            />
+          }
         </View>
 
         <Divider style={styles.dividerStyle} />

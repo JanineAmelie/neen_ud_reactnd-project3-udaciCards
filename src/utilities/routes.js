@@ -8,6 +8,7 @@ import DeckList from '../containers/DeckList';
 import NewDeck from '../containers/NewDeck';
 import DeckView from '../containers/DeckView';
 import NewQuestion from '../containers/NewQuestion';
+import QuizView from '../containers/QuizView';
 
 import { LIGHT_COLOR, MAIN_COLOR, TEXT_COLOR, WHITE } from './colors';
 
@@ -90,6 +91,16 @@ export const MainNavigator = StackNavigator({
   },
   NewQuestion: {
     screen: NewQuestion,
+    navigationOptions: {
+      headerTintColor: TEXT_COLOR,
+      headerStyle: {
+        backgroundColor: MAIN_COLOR,
+        height: 56,
+      },
+    },
+  },
+  QuizView: {
+    screen: QuizView,
     navigationOptions: {
       headerTintColor: TEXT_COLOR,
       headerStyle: {

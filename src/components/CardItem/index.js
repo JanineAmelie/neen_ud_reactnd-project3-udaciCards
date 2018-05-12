@@ -11,7 +11,7 @@ const CardItem = (props) => (
     </View>
     <View style={styles.answerView}>
       <Entypo name="quote" size={32} color={LIGHT_COLOR} />
-      <Text style={{ marginLeft: 4 }}>{props.answer}</Text>
+      <Text style={{ textAlign: 'left', marginLeft: 4 }}>{props.answer}</Text>
     </View>
   </View>
 );
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     paddingRight: 40,
     paddingBottom: 20,
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   questionTitleView: {
     backgroundColor: LIGHT_COLOR,

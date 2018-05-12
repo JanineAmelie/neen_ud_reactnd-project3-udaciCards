@@ -98,7 +98,6 @@ function mapDispatchToProps(dispatch) {
 
 NewQuestion.propTypes = {
   navigation: PropTypes.object.isRequired,
-  deckTitle: PropTypes.string.isRequired,
   deckId: PropTypes.string.isRequired,
   addNewCard: PropTypes.func.isRequired,
 };

@@ -10,7 +10,7 @@ import { RECEIVE_NEW_CARD } from '../NewQuestion/constants';
 
 const initialState = {
   decks: null,
-  quizzing: false,
+  dateOfLastQuiz: null,
 };
 
 function deckToUpdate(decks, deckId) {
