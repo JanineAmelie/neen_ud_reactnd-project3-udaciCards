@@ -7,6 +7,8 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 import DeckList from '../containers/DeckList';
 import NewDeck from '../containers/NewDeck';
 import DeckView from '../containers/DeckView';
+import NewQuestion from '../containers/NewQuestion';
+
 import { LIGHT_COLOR, MAIN_COLOR, TEXT_COLOR, WHITE } from './colors';
 
 export function CustomStatusBar({ backgroundColor, ...props }) {
@@ -38,6 +40,7 @@ export const Tabs = TabNavigator({
     screen: DeckList,
     navigationOptions: {
       tabBarLabel: 'DeckList',
+      // eslint-disable-next-line react/prop-types
       tabBarIcon: ({ tintColor }) => <Ionicons name="ios-bookmarks" size={30} color={tintColor} />,
     },
   },
@@ -77,6 +80,16 @@ export const MainNavigator = StackNavigator({
   },
   DeckView: {
     screen: DeckView,
+    navigationOptions: {
+      headerTintColor: TEXT_COLOR,
+      headerStyle: {
+        backgroundColor: MAIN_COLOR,
+        height: 56,
+      },
+    },
+  },
+  NewQuestion: {
+    screen: NewQuestion,
     navigationOptions: {
       headerTintColor: TEXT_COLOR,
       headerStyle: {

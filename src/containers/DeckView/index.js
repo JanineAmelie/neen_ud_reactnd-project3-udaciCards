@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Text, Divider, Button} from 'react-native-elements';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Divider, Button } from 'react-native-elements';
 import { FloatingAction } from 'react-native-floating-action';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { deckViewActions } from '../../utilities/routes';
 import CardItem from '../../components/CardItem/index';
 import CardCount from '../../components/CardCount/index';
-import { DARK_GREY, MAIN_COLOR } from '../../utilities/colors';
+import { LIGHT_COLOR, MAIN_COLOR } from '../../utilities/colors';
 
 
 class DeckView extends Component {
-  constructor(props) {
-    super(props);
-  }
   static navigationOptions = ({ navigation }) => {
     const { deckTitle } = navigation.state.params;
     return {
@@ -22,6 +18,10 @@ class DeckView extends Component {
     };
   };
   componentDidMount() {
+    if (this.props.force) {
+      this.forceUpdate();
+    }
+    //  @TODO fetch deck instead from API
   }
 
   keyExtractor = (item, index) => index;
@@ -31,10 +31,22 @@ class DeckView extends Component {
   );
 
   render() {
+    const { deck } = this.props;
     return (
       <View style={styles.container}>
-        <CardCount cardCount={this.props.cards.length} />
+        <View style={styles.topView}>
+          <CardCount cardCount={this.props.cards.length} />
+          <Button
+            disabled={false}
+            disabledStyle={styles.disabledStyle}
+            buttonStyle={styles.enabledStyle}
+            title="Start Quiz"
+            icon={{ name: 'pencil-square', type: 'font-awesome' }}
+          />
+        </View>
+
         <Divider style={styles.dividerStyle} />
+
         <FlatList
           data={this.props.cards}
           keyExtractor={this.keyExtractor}
@@ -45,7 +57,7 @@ class DeckView extends Component {
           actions={deckViewActions}
           onPressItem={
             () => {
-              this.props.navigation.navigate('NewCard');
+              this.props.navigation.navigate('NewQuestion', { deckTitle: deck.deckTitle, deckId: deck.id });
             }
           }
         />
@@ -55,20 +67,16 @@ class DeckView extends Component {
 }
 
 function mapStateToProps(state, { navigation }) {
-  const { deckId } = navigation.state.params;
-  console.log('DeckView mapstateToProps ID:', deckId);
+  const { deckId, force } = navigation.state.params;
 
   const deck = state.AppState.decks.find((deck) => deck.id === deckId);
   return {
-    deck: deck,
+    deck,
     cards: deck.cards,
+    force,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-  };
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -76,19 +84,36 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 20,
   },
+  topView: {
+    paddingLeft: 10,
+    paddingRight: 0,
+    flexWrap: 'nowrap',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   dividerStyle: {
     marginTop: 20,
     marginBottom: 20,
     paddingLeft: 20,
     paddingRight: 20,
-    height: 4,
-    backgroundColor: DARK_GREY,
+    height: 1,
+    backgroundColor: LIGHT_COLOR,
+  },
+  enabledStyle: {
+    backgroundColor: MAIN_COLOR,
+    paddingRight: 50,
+    paddingLeft: 50,
+  },
+  disabledStyle: {
+    backgroundColor: 'transparent',
   },
 });
 
 DeckView.propTypes = {
+  force: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired,
   cards: PropTypes.array.isRequired,
+  deck: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeckView);
+export default connect(mapStateToProps)(DeckView);

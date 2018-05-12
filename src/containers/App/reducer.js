@@ -6,14 +6,24 @@
 import produce from 'immer';
 import { RECEIVE_DECKS } from '../DeckList/contants';
 import { RECEIVE_NEW_DECK } from '../NewDeck/constants';
+import { RECEIVE_NEW_CARD } from '../NewQuestion/constants';
 
 const initialState = {
   decks: null,
+  quizzing: false,
 };
+
+function deckToUpdate(decks, deckId) {
+  return decks.findIndex((deck) => deck.id === deckId);
+}
 
 const AppState = produce((draft, action) => {
   if (!draft) {
     return initialState;
+  }
+  let indexOfDeckToUpdate = 0;
+  if (draft.decks) {
+    indexOfDeckToUpdate = deckToUpdate(draft.decks, action.deckToUpdate);
   }
   switch (action.type) {
     case RECEIVE_DECKS:
@@ -21,6 +31,9 @@ const AppState = produce((draft, action) => {
       break;
     case RECEIVE_NEW_DECK:
       draft.decks.push(action.payload);
+      break;
+    case RECEIVE_NEW_CARD:
+      draft.decks[indexOfDeckToUpdate].cards.push(action.payload);
       break;
     default:
       return draft;

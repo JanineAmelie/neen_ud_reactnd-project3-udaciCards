@@ -6,7 +6,6 @@ import { DECKS_STORAGE_KEY, setDummyDataIfNull } from './_decks';
 
 // Returns all decks
 export function getDecks() {
-  console.log('fetchingDecks...');
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then(setDummyDataIfNull);
 }
@@ -15,7 +14,6 @@ export function getDecks() {
 //  id
 
 export function saveDeckTitle(newDeckTitle) {
-  console.log('addingNewDeck...');
   // get asyncStorageItems,
   const newDeck = {
     deckTitle: newDeckTitle,
@@ -35,8 +33,29 @@ export function saveDeckTitle(newDeckTitle) {
     .then(() => newDeck);
 }
 
+
+function deckToUpdate(decks, deckId) {
+  return decks.findIndex((deck) => deck.id === deckId);
+}
+
 // addCardToDeck
-export function addCardToDeck(card, deckId) {
+export function addCardToDeck(newCard, deckId) {
+  let d = [];
+  // get async storage
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((decks) => {
+      // stringify data in variable
+      d = decks ? JSON.parse(decks) : [];
+      // find the index of the deckToUpdate
+      const indexOfDeckToUpdate = deckToUpdate(d, deckId);
+      // add the newCard to the decksArray at the correct deck
+      d[indexOfDeckToUpdate].cards.push(newCard);
+    })
+    .then(() => {
+      AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(d));
+    })
+    // return newCard
+    .then(() => newCard);
 }
 // title
 // card

@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 36,
     flexDirection: 'row',
-
   },
   countText: {
     color: MAIN_COLOR,
