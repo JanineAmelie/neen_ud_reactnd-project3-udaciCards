@@ -66,5 +66,5 @@ export function updateDateQuizzed() {
 
 export function getDateQuizzed() {
   return AsyncStorage.getItem(DATE_QUIZZED_KEY)
-    .then((data) => JSON.stringify(data));
+    .then((data) => data);
 }

@@ -24,7 +24,6 @@ class QuizView extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.props.navigation.setParams({ tabBarVisible: false });
   }
   componentWillUnmount() {

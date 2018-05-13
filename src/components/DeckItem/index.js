@@ -9,7 +9,7 @@ import { MAIN_COLOR } from '../../utilities/colors';
 const DeckItem = (props) => (
   <Card titleStyle={styles.title} title={props.title} key={props.id}>
     <View style={styles.deckItemView}>
-      <Text style={{ flex: 1 }}>{moment(props.date).format('dddd, MMMM D, \'YY, h:mm a' )}</Text>
+      <Text style={{ flex: 1 }}>{moment(props.date).format('dddd, MMMM D, \'YY, h:mm a')}</Text>
       <CardCount cardCount={props.cardCount} />
     </View>
   </Card>

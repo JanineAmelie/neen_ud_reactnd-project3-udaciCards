@@ -23,7 +23,6 @@ class NewDeck extends Component {
   }
 
   handleSubmit() {
-    console.log('handleSubmit', this.state.text);
     this.props.addNewDeck(this.state.text);
     this.props.navigation.navigate('Home');
   }

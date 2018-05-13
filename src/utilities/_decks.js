@@ -39,14 +39,12 @@ export function setDummyData() {
     },
   ];
   const dateQuizzed = null;
-  console.log('AsyncStorage is empty, creating dummy Data');
   AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(dummyData));
   AsyncStorage.setItem(DATE_QUIZZED_KEY, JSON.stringify(dateQuizzed));
   return dummyData;
 }
 
 export function setDummyDataIfNull(data) {
-  console.log('...data fetched!');
   return data === null
     ? setDummyData()
     : JSON.parse(data);

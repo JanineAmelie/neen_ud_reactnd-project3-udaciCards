@@ -10,5 +10,6 @@ export const updateDateQuizzed = () => (dispatch) => (
 export const receiveNewDateQuizzed = (payload) => ({
   type: RECEIVE_NEW_DATE,
   payload,
-});
+}
+);
 

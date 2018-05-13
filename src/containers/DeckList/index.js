@@ -1,15 +1,17 @@
+/* eslint-disable react/no-did-mount-set-state */
 import React, { Component } from 'react';
 import moment from 'moment';
-import { View, ActivityIndicator, StyleSheet, TouchableOpacity, FlatList, Text } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getDecks } from '../../utilities/api';
+import { getDateQuizzed, getDecks } from '../../utilities/api';
 import { receiveDecks } from './actions';
 import DeckCard from '../../components/DeckItem/index';
 import { deckListActions } from '../../utilities/routes';
 import { MAIN_COLOR } from '../../utilities/colors';
 import Notification from '../../components/Notification/index';
+import { receiveNewDateQuizzed } from '../QuizView/actions';
 
 class DeckList extends Component {
   constructor(props) {
@@ -19,19 +21,23 @@ class DeckList extends Component {
     };
   }
   componentDidMount() {
-    if (!this.props.decks) {
-      getDecks()
-        .then((decks) => {
-          this.props.receiveDecks(decks);
-        })
-        .then(() => {
-          this.setState(() => ({ ready: true }));
-        });
-    } else {
-    // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState(() => ({ ready: true }));
-    }
+    getDecks()
+      .then((decks) => {
+        this.props.receiveDecks(decks);
+      })
+      .then(() => {
+        getDateQuizzed()
+          .then((date) => {
+            if (date !== 'null') {
+              this.props.receiveNewDateQuizzed(parseInt(date, 10));
+            }
+          })
+          .then(() => {
+            this.setState(() => ({ ready: true }));
+          });
+      });
   }
+
   checkIfQuizzedToday() {
     if (!this.props.dateQuizzed) {
       return false;
@@ -52,12 +58,11 @@ class DeckList extends Component {
       <DeckCard title={item.deckTitle} date={item.date} cardCount={item.cards.length} id={item.id} />
     </TouchableOpacity>
   );
-  // @TODO: SAME DAY notifier:
-  // https://stackoverflow.com/questions/24883760/moment-js-check-a-date-is-today/30679950#30679950
+
   render() {
     return (
       <View style={styles.container}>
-        {!this.checkIfQuizzedToday() &&
+        {!this.checkIfQuizzedToday() && this.state.ready &&
           <Notification title="👋 Looks like you haven't quizzed today, take one!" />
         }
         { this.state.ready
@@ -92,6 +97,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     receiveDecks: (payload) => dispatch(receiveDecks(payload)),
+    receiveNewDateQuizzed: (payload) => dispatch(receiveNewDateQuizzed(payload)),
   };
 }
 
@@ -104,6 +110,7 @@ const styles = StyleSheet.create({
 
 DeckList.propTypes = {
   receiveDecks: PropTypes.func.isRequired,
+  receiveNewDateQuizzed: PropTypes.func.isRequired,
   decks: PropTypes.array,
   navigation: PropTypes.object,
   dateQuizzed: PropTypes.number,
