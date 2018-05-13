@@ -21,21 +21,25 @@ class DeckList extends Component {
     };
   }
   componentDidMount() {
-    getDecks()
-      .then((decks) => {
-        this.props.receiveDecks(decks);
-      })
-      .then(() => {
-        getDateQuizzed()
-          .then((date) => {
-            if (date !== 'null') {
-              this.props.receiveNewDateQuizzed(parseInt(date, 10));
-            }
-          })
-          .then(() => {
-            this.setState(() => ({ ready: true }));
-          });
+    getDateQuizzed()
+      .then((date) => {
+        if (date !== 'null') {
+          this.props.receiveNewDateQuizzed(parseInt(date, 10));
+        }
       });
+
+    if (!this.props.decks) {
+      getDecks()
+        .then((decks) => {
+          this.props.receiveDecks(decks);
+        })
+        .then(() => {
+          this.setState(() => ({ ready: true }));
+        });
+    } else {
+    // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState(() => ({ ready: true }));
+    }
   }
 
   checkIfQuizzedToday() {
