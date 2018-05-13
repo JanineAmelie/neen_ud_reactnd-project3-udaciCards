@@ -1,6 +1,5 @@
 // AsyncStorage Database helper methods
 import { AsyncStorage } from 'react-native';
-import shortid from 'shortid';
 import { DECKS_STORAGE_KEY, setDummyDataIfNull, DATE_QUIZZED_KEY } from './_decks';
 
 
@@ -13,11 +12,11 @@ export function getDecks() {
 // getDeck
 //  id
 
-export function saveDeckTitle(newDeckTitle) {
+export function saveDeckTitle(newDeckTitle, id) {
   // get asyncStorageItems,
   const newDeck = {
     deckTitle: newDeckTitle,
-    id: shortid.generate(),
+    id,
     date: Date.now(),
     cards: [],
   };

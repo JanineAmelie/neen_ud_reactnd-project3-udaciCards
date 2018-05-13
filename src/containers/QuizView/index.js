@@ -35,7 +35,6 @@ class QuizView extends Component {
     this.setState({ front: true });
     if ((this.state.currentIndex + 1) === this.props.cards.length) {
       this.setState({ finished: true });
-      //  @todo: dispatch action
     } else {
       this.setState({ currentIndex: this.state.currentIndex + 1 });
     }
@@ -43,7 +42,8 @@ class QuizView extends Component {
     // if no this.setState({ currentIndex +=1 })
   }
   handleBackToDeck() {
-
+    const backAction = NavigationActions.back();
+    this.props.navigation.dispatch(backAction);
   }
   updateScore(answerType) {
     if (answerType === '+') {
@@ -67,6 +67,13 @@ class QuizView extends Component {
       front: true,
     });
   }
+  handleShowButton() {
+    if (this.state.front) {
+      this.setState({ front: false });
+    } else {
+      this.setState({ front: true });
+    }
+  }
   render() {
     // if Quiz is Finished
     if (this.state.finished) {
@@ -78,16 +85,16 @@ class QuizView extends Component {
           <Text style={styles.scoreNumber}> {this.state.score} / {this.props.cards.length} </Text>
           <View style={styles.btnContainer}>
             <Button
-              title="Back to deck"
+              title="Back"
               large
-              backgroundColor="#4CAF50"
-              icon={{ name: 'md-arrow-round-back', type: 'Ionicons' }}
-              onPress={() => this.updateScore('+')}
+              backgroundColor={LIGHT_COLOR}
+              icon={{ name: 'arrow-back', type: 'Ionicons' }}
+              onPress={() => this.handleBackToDeck()}
             />
             <Button
               title="Restart"
               large
-              backgroundColor="#f44336"
+              backgroundColor={MAIN_COLOR}
               icon={{ name: 'refresh', type: 'MaterialCommunityIcons' }}
               onPress={() => this.restartQuizHandler()}
             />
@@ -99,7 +106,8 @@ class QuizView extends Component {
     const item = this.props.cards[this.state.currentIndex];
     return (
       <View style={styles.container}>
-        <Text> {this.state.currentIndex + 1} / {this.props.cards.length}</Text>
+        <Text> {this.state.currentIndex + 1} / {this.props.cards.length} </Text>
+        <Text> Left: {this.props.cards.length - (this.state.currentIndex + 1) }</Text>
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.cardTouch}
@@ -142,6 +150,14 @@ class QuizView extends Component {
             icon={{ name: 'remove', type: 'font-awesome' }}
             onPress={() => this.updateScore('-')}
           />
+          <TouchableOpacity>
+          <Button
+            large
+            title={this.state.front ? 'Show Answer' : 'Show Question'}
+            backgroundColor={this.state.front ? '#2196F3' : '#3F51B5'}
+            onPress={() => this.handleShowButton()}
+          />
+        </TouchableOpacity>
         </View>
       </View>
     );
@@ -153,6 +169,7 @@ function mapStateToProps(state, { navigation }) {
   return {
     deckTitle: deck.deckTitle,
     cards: deck.cards,
+    navigation,
   };
 }
 
@@ -183,15 +200,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardContainer: {
-    width: 320,
-    height: 470,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 10,
   },
 
   face: {
     flex: 1,
-    padding: 50,
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: DARK_COLOR,
@@ -205,7 +222,7 @@ const styles = StyleSheet.create({
   },
   back: {
     flex: 1,
-    padding: 40,
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: MAIN_COLOR,

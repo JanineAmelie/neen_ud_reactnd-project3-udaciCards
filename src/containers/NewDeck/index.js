@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import shortid from 'shortid';
 import { KeyboardAvoidingView, TextInput, StyleSheet } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Text } from 'react-native-elements';
@@ -23,8 +25,21 @@ class NewDeck extends Component {
   }
 
   handleSubmit() {
-    this.props.addNewDeck(this.state.text);
-    this.props.navigation.navigate('Home');
+    const id = shortid.generate();
+    this.props.addNewDeck(this.state.text, id);
+    // this.props.navigation.navigate('Home');
+    const resetAction = StackActions.Replace({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: 'DeckView' }),
+      ],
+      params: {
+        deckId: id,
+        force: false,
+      },
+    });
+
+    this.props.navigation.dispatch(resetAction);
   }
   render() {
     return (
