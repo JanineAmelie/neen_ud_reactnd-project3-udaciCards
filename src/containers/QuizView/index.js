@@ -1,6 +1,7 @@
-/* eslint-disable no-return-assign */
+/* eslint-disable no-return-assign,jsx-a11y/accessible-emoji */
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesome } from '@expo/vector-icons';
@@ -41,7 +42,9 @@ class QuizView extends Component {
     // if yes this.setState({finished: true})
     // if no this.setState({ currentIndex +=1 })
   }
+  handleBackToDeck() {
 
+  }
   updateScore(answerType) {
     if (answerType === '+') {
       this.setState({ score: this.state.score + 1 });
@@ -56,7 +59,14 @@ class QuizView extends Component {
       }
     }
   }
-
+  restartQuizHandler() {
+    this.setState({
+      currentIndex: 0,
+      score: 0,
+      finished: false,
+      front: true,
+    });
+  }
   render() {
     // if Quiz is Finished
     if (this.state.finished) {
@@ -66,6 +76,22 @@ class QuizView extends Component {
           <Text style={styles.emoji}> 🎆 </Text>
           <Text style={styles.finished}> Quiz Finished!</Text>
           <Text style={styles.scoreNumber}> {this.state.score} / {this.props.cards.length} </Text>
+          <View style={styles.btnContainer}>
+            <Button
+              title="Back to deck"
+              large
+              backgroundColor="#4CAF50"
+              icon={{ name: 'md-arrow-round-back', type: 'Ionicons' }}
+              onPress={() => this.updateScore('+')}
+            />
+            <Button
+              title="Restart"
+              large
+              backgroundColor="#f44336"
+              icon={{ name: 'refresh', type: 'MaterialCommunityIcons' }}
+              onPress={() => this.restartQuizHandler()}
+            />
+          </View>
         </View>
       );
     }
