@@ -21,7 +21,7 @@ The Project utilizes the `Redux-thunk` middleware to handle async operations fro
 
 ---
 ### Final-Product
-![Image](https://www.dropbox.com/s/fkpu4o2m1it68ao/20180513_162836.gif?raw=1)
+![Image](https://www.dropbox.com/s/vdakmzsh2663wt5/preview-udacicards.gif?raw=1)
 
 ---
 
