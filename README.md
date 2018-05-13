@@ -112,4 +112,3 @@ features I want to add in the future
 - ☐ date  quizzed of each deck
 - ☐ persistent score by item
 
-
