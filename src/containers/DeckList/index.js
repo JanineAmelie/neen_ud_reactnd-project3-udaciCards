@@ -12,10 +12,9 @@ import { deckListActions } from '../../utilities/routes';
 import { MAIN_COLOR } from '../../utilities/colors';
 import Notification from '../../components/Notification/index';
 import { receiveNewDateQuizzed } from '../QuizView/actions';
+import { resetDeck } from '../DeckView/actions';
 
 // CREATE-DECK
-// @TODO: Pressing the button correctly creates the deck and routes the user to the Individual Deck view for the new deck.
-
 
 // @TODO: Logic for notification has been implemented. Notifications are generated at a specific time if the user hasn't completed at least one quiz for that day.
 
@@ -108,6 +107,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     receiveDecks: (payload) => dispatch(receiveDecks(payload)),
+    resetDeck: () => dispatch(resetDeck()),
     receiveNewDateQuizzed: (payload) => dispatch(receiveNewDateQuizzed(payload)),
   };
 }

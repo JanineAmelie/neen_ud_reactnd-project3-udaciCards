@@ -4,3 +4,4 @@ export const receiveDecks = (payload) => ({
   type: RECEIVE_DECKS,
   payload,
 });
+

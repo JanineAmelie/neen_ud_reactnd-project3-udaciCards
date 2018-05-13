@@ -11,15 +11,31 @@ export function getDecks() {
 
 // getDeck
 //  id
+function deckToUpdate(decks, deckId) {
+  return decks.findIndex((deck) => deck.id === deckId);
+}
 
-export function saveDeckTitle(newDeckTitle, id) {
+export function getDeck(id) {
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((data) => {
+      const res = JSON.parse(data);
+      console.log('id:', id, res);
+      const deckIndex = deckToUpdate(res, id);
+      const deck = res[deckIndex];
+      console.log('deckFound!', deck);
+      return deck;
+    });
+}
+
+export function saveDeckTitle(newDeckTitle, newId) {
   // get asyncStorageItems,
   const newDeck = {
     deckTitle: newDeckTitle,
-    id,
+    id: newId,
     date: Date.now(),
     cards: [],
   };
+  console.log('newDeck:', newDeck);
   let d = [];
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((decks) => {
@@ -32,10 +48,6 @@ export function saveDeckTitle(newDeckTitle, id) {
     .then(() => newDeck);
 }
 
-
-function deckToUpdate(decks, deckId) {
-  return decks.findIndex((deck) => deck.id === deckId);
-}
 
 // addCardToDeck
 export function addCardToDeck(newCard, deckId) {

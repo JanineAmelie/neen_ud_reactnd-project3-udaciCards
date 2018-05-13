@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
 import { KeyboardAvoidingView, TextInput, StyleSheet } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Text } from 'react-native-elements';
@@ -20,6 +19,9 @@ class NewDeck extends Component {
       text: '',
     };
   }
+  componentDidMount() {
+    console.log('halloo', this.props.navigation);
+  }
   handleChange(text) {
     this.setState({ text });
   }
@@ -27,19 +29,7 @@ class NewDeck extends Component {
   handleSubmit() {
     const id = shortid.generate();
     this.props.addNewDeck(this.state.text, id);
-    // this.props.navigation.navigate('Home');
-    const resetAction = StackActions.Replace({
-      index: 1,
-      actions: [
-        NavigationActions.navigate({ routeName: 'DeckView' }),
-      ],
-      params: {
-        deckId: id,
-        force: false,
-      },
-    });
-
-    this.props.navigation.dispatch(resetAction);
+    this.props.navigation.replace('DeckView', { deckId: id, force: false, deckTitle: this.state.text });
   }
   render() {
     return (
@@ -66,20 +56,23 @@ class NewDeck extends Component {
   }
 }
 
-function mapStateToProps() {
+function mapStateToProps(state, { navigation }) {
+  const { key } = navigation.state;
   return {
+    currentKey: key,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    addNewDeck: (payload) => dispatch(addNewDeck(payload)),
+    addNewDeck: (deckTitle, id) => dispatch(addNewDeck(deckTitle, id)),
   };
 }
 
 NewDeck.propTypes = {
   addNewDeck: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
+  currentKey: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewDeck);

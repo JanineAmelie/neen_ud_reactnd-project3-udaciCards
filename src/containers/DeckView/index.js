@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { View, StyleSheet, FlatList, Text, ActivityIndicator } from 'react-native';
 import { Divider, Button } from 'react-native-elements';
 import { FloatingAction } from 'react-native-floating-action';
 import { connect } from 'react-redux';
@@ -8,6 +8,8 @@ import { deckViewActions } from '../../utilities/routes';
 import CardItem from '../../components/CardItem/index';
 import CardCount from '../../components/CardCount/index';
 import { LIGHT_COLOR, MAIN_COLOR } from '../../utilities/colors';
+import { receiveDeck, resetDeck } from './actions';
+import { getDeck } from '../../utilities/api';
 
 
 class DeckView extends Component {
@@ -17,7 +19,12 @@ class DeckView extends Component {
       title: deckTitle,
     };
   };
+
   componentDidMount() {
+    getDeck(this.props.deckId)
+      .then((deck) => {
+        this.props.receiveDeck(deck);
+      });
     if (this.props.force) {
       this.forceUpdate();
     }
@@ -28,6 +35,9 @@ class DeckView extends Component {
       { deck: this.props.deck }
     );
   }
+  componentWillUnmount() {
+    this.props.resetDeck();
+  }
   keyExtractor = (item, index) => index;
 
   renderItem = ({ item }) => (
@@ -36,10 +46,13 @@ class DeckView extends Component {
 
   render() {
     const { deck } = this.props;
+    if (this.props.loading) {
+      return <ActivityIndicator />;
+    }
     return (
       <View style={styles.container}>
         <View style={styles.topView}>
-          <CardCount cardCount={this.props.cards.length} />
+          <CardCount cardCount={this.props.deck.cards.length} />
           { deck.cards.length === 0
             ? <Text> Add Some cards to start a quiz! </Text>
             : <Button
@@ -56,7 +69,7 @@ class DeckView extends Component {
         <Divider style={styles.dividerStyle} />
 
         <FlatList
-          data={this.props.cards}
+          data={this.props.deck.cards}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
         />
@@ -74,17 +87,23 @@ class DeckView extends Component {
   }
 }
 
-function mapStateToProps(state, { navigation }) {
-  const { deckId, force } = navigation.state.params;
-
-  const deck = state.AppState.decks.find((deck) => deck.id === deckId);
+function mapDispatchToProps(dispatch) {
   return {
-    deck,
-    cards: deck.cards,
-    force,
+    receiveDeck: (payload) => dispatch(receiveDeck(payload)),
+    resetDeck: () => dispatch(resetDeck()),
   };
 }
 
+function mapStateToProps(state, { navigation }) {
+  const { deckId, force } = navigation.state.params;
+
+  return {
+    loading: state.AppState.deckLoading,
+    deckId,
+    deck: state.AppState.deck,
+    force,
+  };
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -118,10 +137,13 @@ const styles = StyleSheet.create({
 });
 
 DeckView.propTypes = {
+  deckId: PropTypes.string.isRequired,
   force: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired,
-  cards: PropTypes.array.isRequired,
-  deck: PropTypes.object.isRequired,
+  deck: PropTypes.object,
+  receiveDeck: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  resetDeck: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(DeckView);
+export default connect(mapStateToProps, mapDispatchToProps)(DeckView);
