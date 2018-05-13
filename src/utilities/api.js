@@ -1,7 +1,7 @@
 // AsyncStorage Database helper methods
 import { AsyncStorage } from 'react-native';
 import shortid from 'shortid';
-import { DECKS_STORAGE_KEY, setDummyDataIfNull } from './_decks';
+import { DECKS_STORAGE_KEY, setDummyDataIfNull, DATE_QUIZZED_KEY } from './_decks';
 
 
 // Returns all decks
@@ -57,5 +57,14 @@ export function addCardToDeck(newCard, deckId) {
     // return newCard
     .then(() => newCard);
 }
-// title
-// card
+
+export function updateDateQuizzed() {
+  const date = Date.now();
+  return AsyncStorage.setItem(DATE_QUIZZED_KEY, JSON.stringify(date))
+    .then(() => date);
+}
+
+export function getDateQuizzed() {
+  return AsyncStorage.getItem(DATE_QUIZZED_KEY)
+    .then((data) => JSON.stringify(data));
+}

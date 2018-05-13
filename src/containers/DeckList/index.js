@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import moment from 'moment';
+import { View, ActivityIndicator, StyleSheet, TouchableOpacity, FlatList, Text } from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,6 +9,7 @@ import { receiveDecks } from './actions';
 import DeckCard from '../../components/DeckItem/index';
 import { deckListActions } from '../../utilities/routes';
 import { MAIN_COLOR } from '../../utilities/colors';
+import Notification from '../../components/Notification/index';
 
 class DeckList extends Component {
   constructor(props) {
@@ -30,6 +32,13 @@ class DeckList extends Component {
       this.setState(() => ({ ready: true }));
     }
   }
+  checkIfQuizzedToday() {
+    if (!this.props.dateQuizzed) {
+      return false;
+    }
+    const dateQuizzed = moment(this.props.dateQuizzed);
+    return moment().isSame(dateQuizzed, 'day');
+  }
 
   keyExtractor = (item) => item.id;
 
@@ -48,6 +57,9 @@ class DeckList extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {!this.checkIfQuizzedToday() &&
+          <Notification title="👋 Looks like you haven't quizzed today, take one!" />
+        }
         { this.state.ready
           ? <FlatList
             data={this.props.decks}
@@ -73,6 +85,7 @@ class DeckList extends Component {
 function mapStateToProps(state) {
   return {
     decks: state.AppState.decks,
+    dateQuizzed: state.AppState.dateQuizzed,
   };
 }
 
@@ -93,6 +106,7 @@ DeckList.propTypes = {
   receiveDecks: PropTypes.func.isRequired,
   decks: PropTypes.array,
   navigation: PropTypes.object,
+  dateQuizzed: PropTypes.number,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeckList);

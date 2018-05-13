@@ -3,6 +3,7 @@
 
 import { AsyncStorage } from 'react-native';
 export const DECKS_STORAGE_KEY = 'UdaciCards:decks';
+export const DATE_QUIZZED_KEY = 'UdaciCards:dateQuizzed';
 
 export function setDummyData() {
   const dummyData = [
@@ -37,8 +38,10 @@ export function setDummyData() {
       ],
     },
   ];
+  const dateQuizzed = null;
   console.log('AsyncStorage is empty, creating dummy Data');
   AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(dummyData));
+  AsyncStorage.setItem(DATE_QUIZZED_KEY, JSON.stringify(dateQuizzed));
   return dummyData;
 }
 

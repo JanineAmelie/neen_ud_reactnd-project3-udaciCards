@@ -1,11 +1,13 @@
 /* eslint-disable no-return-assign */
 import React, { Component } from 'react';
-import CardFlip from 'react-native-card-flip';
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Card } from 'react-native-elements';
-import { LIGHT_COLOR, LIGHT_GREY } from '../../utilities/colors';
+import { FontAwesome } from '@expo/vector-icons';
+import { Button } from 'react-native-elements';
+import { DARK_COLOR, LIGHT_COLOR, MAIN_COLOR, TEXT_COLOR } from '../../utilities/colors';
+import { updateDateQuizzed } from './actions';
+
 class QuizView extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: `Quizzing: ${navigation.state.params.deck.deckTitle}`,
@@ -17,6 +19,7 @@ class QuizView extends Component {
       currentIndex: 0,
       score: 0,
       finished: false,
+      front: true,
     };
   }
 
@@ -29,6 +32,7 @@ class QuizView extends Component {
 
   nextItemHandler() {
     // check if current index + 1 wont exceed numberOfItems
+    this.setState({ front: true });
     if ((this.state.currentIndex + 1) === this.props.cards.length) {
       this.setState({ finished: true });
       //  @todo: dispatch action
@@ -57,11 +61,12 @@ class QuizView extends Component {
   render() {
     // if Quiz is Finished
     if (this.state.finished) {
+      this.props.updateDateQuizzed();
       return (
         <View style={styles.container}>
-          <Text> Quiz Finished</Text>
-          <Text> Your Score: </Text>
-          <Text> {this.state.score} / {this.props.cards.length} </Text>
+          <Text style={styles.emoji}> 🎆 </Text>
+          <Text style={styles.finished}> Quiz Finished!</Text>
+          <Text style={styles.scoreNumber}> {this.state.score} / {this.props.cards.length} </Text>
         </View>
       );
     }
@@ -70,6 +75,35 @@ class QuizView extends Component {
     return (
       <View style={styles.container}>
         <Text> {this.state.currentIndex + 1} / {this.props.cards.length}</Text>
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.cardTouch}
+            onPress={() => this.setState({ front: !this.state.front })}
+          >
+            {this.state.front
+              ? (
+                <View style={styles.cardContainer}>
+                  <View style={styles.face}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <FontAwesome name="question" size={32} color={TEXT_COLOR} />
+                    </View>
+                    <Text style={styles.label}>{item.question} </Text>
+                  </View>
+                </View>
+              )
+              : (
+                <View style={styles.cardContainer}>
+                  <View style={styles.back}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                      <FontAwesome name="graduation-cap" size={32} color={TEXT_COLOR} />
+                    </View>
+                    <Text style={styles.labelAnswer}>{item.answer} </Text>
+                  </View>
+                </View>
+              )
+            }
+          </TouchableOpacity>
+        </View>
         <View style={styles.btnContainer}>
           <Button
             large
@@ -97,16 +131,16 @@ function mapStateToProps(state, { navigation }) {
   };
 }
 
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
   return {
-    //  SetDateOfQuizzing
+    updateDateQuizzed: () => dispatch(updateDateQuizzed()),
   };
 }
 
 QuizView.propTypes = {
   cards: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired,
-  deckTitle: PropTypes.string.isRequired,
+  updateDateQuizzed: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuizView);
@@ -123,28 +157,66 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textItemStyle: {
-    textAlign: 'center',
-  },
   cardContainer: {
     width: 320,
     height: 470,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  card: {
-    width: 320,
-    height: 470,
-    padding: 0,
+
+  face: {
+    flex: 1,
+    padding: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: DARK_COLOR,
+    borderRadius: 5,
+    shadowColor: 'rgba(0,0,0,0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
   },
-  card1: {
-  },
-  card2: {
+  back: {
+    flex: 1,
+    padding: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: MAIN_COLOR,
+    borderRadius: 5,
+    shadowColor: 'rgba(0,0,0,0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
   },
   label: {
-    lineHeight: 470,
     textAlign: 'center',
-    fontSize: 55,
+    fontSize: 30,
     fontFamily: 'System',
-    color: '#ffffff',
+    color: TEXT_COLOR,
     backgroundColor: 'transparent',
+  },
+  labelAnswer: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontFamily: 'System',
+    color: TEXT_COLOR,
+    backgroundColor: 'transparent',
+  },
+  finished: {
+    textAlign: 'center',
+    fontSize: 30,
+  },
+  scoreNumber: {
+    color: MAIN_COLOR,
+    fontWeight: 'bold',
+    fontSize: 35,
+  },
+  emoji: {
+    textAlign: 'center',
+    fontSize: 60,
   },
 });

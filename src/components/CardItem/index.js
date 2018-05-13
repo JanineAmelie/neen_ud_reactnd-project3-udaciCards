@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { View, StyleSheet, Text } from 'react-native';
 import { LIGHT_COLOR, MAIN_COLOR } from '../../utilities/colors';
 
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   questionTitleView: {
-    backgroundColor: LIGHT_COLOR,
+    backgroundColor: MAIN_COLOR,
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
