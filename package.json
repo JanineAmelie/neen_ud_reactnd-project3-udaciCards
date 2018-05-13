@@ -1,5 +1,6 @@
 {
   "name": "UdaciCards",
+  "author": "Janine Lourens",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
