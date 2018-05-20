@@ -19,20 +19,17 @@ class NewDeck extends Component {
       text: '',
     };
   }
-  componentDidMount() {
-  }
-
   handleChange(text) {
     this.setState({ text });
   }
 
   handleSubmit() {
-    //   replace('DeckView', { deckId: id, force: false, deckTitle: this.state.text });
-    const ref = this.props.navigation;
-    console.log(1, ref);
     const id = shortid.generate();
-    this.props.addNewDeck(this.state.text, id, ref);
+    const navCb = () => {
+      this.props.navigation.replace('DeckView', { deckId: id, force: false, deckTitle: this.state.text });
+    };
 
+    this.props.addNewDeck(this.state.text, id, navCb);
   }
   render() {
     return (
