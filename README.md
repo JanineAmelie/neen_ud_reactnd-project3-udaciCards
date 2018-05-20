@@ -112,10 +112,10 @@ ____
 features I want to add in the future
 - ☐  Better responsiveness (especially on small devices)
 - ☐  actual card flipping animation
-- ☐ deleting cards / Decks
-- ☐ editing cards / Decks
-- ☐ user uploaded questions
-- ☐ deck categories
-- ☐ date  quizzed of each deck
-- ☐ persistent score by item
+- ☐  deleting cards / Decks
+- ☐  editing cards / Decks
+- ☐  user uploaded questions
+- ☐  deck categories
+- ☐  date  quizzed of each deck
+- ☐  persistent score by item
 

@@ -1,0 +1,12 @@
+{
+  "name": "UdaciCards: JanineL",
+   "description": "Udacity React Nanodegree project3 by Janine Lourens",
+  "expo": {
+    "sdkVersion": "21.0.0",
+    "orientation": "portrait",
+    "name": "UdaciCards",
+    "description": "The very first native app made by neen",
+    "slug": "udacifitness",
+    "version": "1.0"
+    }
+}
