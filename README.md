@@ -25,6 +25,9 @@ The Project utilizes the `Redux-thunk` middleware to handle async operations fro
 
 ---
 
+### Platforms
+Tested on Android & IOS
+
 ### Project-Information
 **Libraries:**
  - [ **React**](https://reactjs.org/)

@@ -8,6 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Button } from 'react-native-elements';
 import { DARK_COLOR, LIGHT_COLOR, MAIN_COLOR, TEXT_COLOR } from '../../utilities/colors';
 import { updateDateQuizzed } from './actions';
+import { clearLocalNotification, setLocalNotification } from '../../utilities/helpers';
 
 class QuizView extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -74,10 +75,16 @@ class QuizView extends Component {
       this.setState({ front: true });
     }
   }
+
+  handleQuizFinished() {
+    this.props.updateDateQuizzed();
+    clearLocalNotification()
+      .then(setLocalNotification);
+  }
   render() {
     // if Quiz is Finished
     if (this.state.finished) {
-      this.props.updateDateQuizzed();
+      this.handleQuizFinished();
       return (
         <View style={styles.container}>
           <Text style={styles.emoji}> 🎆 </Text>
@@ -151,13 +158,13 @@ class QuizView extends Component {
             onPress={() => this.updateScore('-')}
           />
           <TouchableOpacity>
-          <Button
-            large
-            title={this.state.front ? 'Show Answer' : 'Show Question'}
-            backgroundColor={this.state.front ? '#2196F3' : '#3F51B5'}
-            onPress={() => this.handleShowButton()}
-          />
-        </TouchableOpacity>
+            <Button
+              large
+              title={this.state.front ? 'Show Answer' : 'Show Question'}
+              backgroundColor={this.state.front ? '#2196F3' : '#3F51B5'}
+              onPress={() => this.handleShowButton()}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
