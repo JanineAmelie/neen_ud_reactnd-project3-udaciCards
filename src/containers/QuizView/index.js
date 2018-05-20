@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign,jsx-a11y/accessible-emoji */
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesome } from '@expo/vector-icons';

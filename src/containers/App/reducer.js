@@ -50,6 +50,7 @@ const AppState = produce((draft, action) => {
       break;
     case RESET_DECK:
       draft.deck = null;
+      break;
     default:
       return draft;
   }

@@ -14,11 +14,6 @@ import Notification from '../../components/Notification/index';
 import { receiveNewDateQuizzed } from '../QuizView/actions';
 import { resetDeck } from '../DeckView/actions';
 
-// CREATE-DECK
-
-// @TODO: Logic for notification has been implemented. Notifications are generated at a specific time if the user hasn't completed at least one quiz for that day.
-
-
 class DeckList extends Component {
   constructor(props) {
     super(props);

@@ -72,7 +72,6 @@ function mapDispatchToProps(dispatch) {
 NewDeck.propTypes = {
   addNewDeck: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
-  currentKey: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewDeck);

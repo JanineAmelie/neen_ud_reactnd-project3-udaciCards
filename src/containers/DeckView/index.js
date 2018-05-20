@@ -11,7 +11,6 @@ import { LIGHT_COLOR, MAIN_COLOR } from '../../utilities/colors';
 import { receiveDeck, resetDeck } from './actions';
 import { getDeck } from '../../utilities/api';
 
-
 class DeckView extends Component {
   static navigationOptions = ({ navigation }) => {
     const { deckTitle } = navigation.state.params;
@@ -144,7 +143,6 @@ DeckView.propTypes = {
   navigation: PropTypes.object.isRequired,
   deck: PropTypes.object,
   receiveDeck: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
   resetDeck: PropTypes.func.isRequired,
 };
 
