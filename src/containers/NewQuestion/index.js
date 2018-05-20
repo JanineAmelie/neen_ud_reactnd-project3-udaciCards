@@ -36,11 +36,13 @@ class NewQuestion extends Component {
       question: this.state.questionText,
       answer: this.state.answerText,
     };
-    this.props.addNewCard(newCard, this.props.deckId);
-    this.props.navigation.navigate(
-      'DeckList',
-      { force: true }
-    );
+    const navCb = () => {
+      this.props.navigation.replace(
+        'DeckView',
+        { deckId: this.props.deckId, force: true, deckTitle: this.props.deckTitle }
+      );
+    };
+    this.props.addNewCard(newCard, this.props.deckId, navCb);
   }
 
   checkIfValid() {
@@ -92,13 +94,14 @@ function mapStateToProps(state, { navigation }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addNewCard: (newCard, deckId) => dispatch(addNewCard(newCard, deckId)),
+    addNewCard: (newCard, deckId, cb) => dispatch(addNewCard(newCard, deckId, cb)),
   };
 }
 
 NewQuestion.propTypes = {
   navigation: PropTypes.object.isRequired,
   deckId: PropTypes.string.isRequired,
+  deckTitle: PropTypes.string.isRequired,
   addNewCard: PropTypes.func.isRequired,
 };
 
