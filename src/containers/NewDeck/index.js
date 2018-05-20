@@ -20,16 +20,19 @@ class NewDeck extends Component {
     };
   }
   componentDidMount() {
-    console.log('halloo', this.props.navigation);
   }
+
   handleChange(text) {
     this.setState({ text });
   }
 
   handleSubmit() {
+    //   replace('DeckView', { deckId: id, force: false, deckTitle: this.state.text });
+    const ref = this.props.navigation;
+    console.log(1, ref);
     const id = shortid.generate();
-    this.props.addNewDeck(this.state.text, id);
-    this.props.navigation.replace('DeckView', { deckId: id, force: false, deckTitle: this.state.text });
+    this.props.addNewDeck(this.state.text, id, ref);
+
   }
   render() {
     return (
@@ -65,7 +68,7 @@ function mapStateToProps(state, { navigation }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addNewDeck: (deckTitle, id) => dispatch(addNewDeck(deckTitle, id)),
+    addNewDeck: (deckTitle, id, ref) => dispatch(addNewDeck(deckTitle, id, ref)),
   };
 }
 

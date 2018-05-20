@@ -29,15 +29,17 @@ class DeckView extends Component {
       this.forceUpdate();
     }
   }
+  componentWillUnmount() {
+    this.props.resetDeck();
+  }
+
   handleQuizStart() {
     this.props.navigation.navigate(
       'QuizView',
       { deck: this.props.deck }
     );
   }
-  componentWillUnmount() {
-    this.props.resetDeck();
-  }
+
   keyExtractor = (item, index) => index;
 
   renderItem = ({ item }) => (
@@ -46,7 +48,7 @@ class DeckView extends Component {
 
   render() {
     const { deck } = this.props;
-    if (this.props.loading) {
+    if (this.props.deck === null) {
       return <ActivityIndicator />;
     }
     return (
