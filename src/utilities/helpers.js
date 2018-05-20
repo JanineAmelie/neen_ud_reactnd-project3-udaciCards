@@ -49,7 +49,6 @@ export function setLocalNotification() {
                   repeat: 'day',
                 }
               );
-             console.log('tomorrow', tomorrow);
               AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
             } else {
               console.log('status Not granted');

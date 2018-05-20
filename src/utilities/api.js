@@ -19,10 +19,8 @@ export function getDeck(id) {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((data) => {
       const res = JSON.parse(data);
-      console.log('id:', id, res);
       const deckIndex = deckToUpdate(res, id);
       const deck = res[deckIndex];
-      console.log('deckFound!', deck);
       return deck;
     });
 }
@@ -35,7 +33,6 @@ export function saveDeckTitle(newDeckTitle, newId) {
     date: Date.now(),
     cards: [],
   };
-  console.log('newDeck:', newDeck);
   let d = [];
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((decks) => {

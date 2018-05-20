@@ -14,4 +14,3 @@ export const receiveNewDeck = (payload) => ({
   type: RECEIVE_NEW_DECK,
   payload,
 });
-
